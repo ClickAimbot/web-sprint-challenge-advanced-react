@@ -96,16 +96,18 @@ export default class AppClass extends React.Component {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const { email } = this.state;
+    console.log("Submitting email:", email)
 
   }
 
   render() {
-    const { className } = this.props
+    const { className } = this.props;
+    const { steps } = this.state;
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
-          <h3 id="steps">You moved 0 times</h3>
+          <h3 id="coordinates">{this.getXYMessage()}</h3>
+          <h3 id="steps">You moved {steps} times</h3>
         </div>
         <div id="grid">
           {
