@@ -15,8 +15,8 @@ const initialState = {
 }
 
 export default class AppClass extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = initialState;
   }
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
@@ -52,6 +52,7 @@ export default class AppClass extends React.Component {
     const { index } = this.state;
     const gridWidth = 3
     let nextIndex = index;
+    
 
     switch (direction) {
       case 'left':
@@ -71,7 +72,7 @@ export default class AppClass extends React.Component {
     }
 
     if (nextIndex >= 0 && nextIndex < gridWidth * gridWidth) {
-      nextIndex;
+      return nextIndex;
     } else {
       return index;
     }
@@ -81,15 +82,18 @@ export default class AppClass extends React.Component {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     const direction = evt.target.id;
-    this.setState((prevState) => ({
-      index: this.getNextIndex(direction),
-      steps: prevState.steps + 1
-    }))
+    this.setState((prevState) => {
+      const nextIndex = this.getNextIndex(direction);
+      return {
+        index: nextIndex,
+        steps: prevState.index !== nextIndex ? prevState.steps + 1 : prevState.steps,
+      };
+    });
   }
 
   onChange = (evt) => {
     // You will need this to update the value of the input.
-    this.setState({ email: evt.target.value })
+    this.setState({ ...this.state, email: evt.target.value })
   }
 
   onSubmit = (evt) => {
