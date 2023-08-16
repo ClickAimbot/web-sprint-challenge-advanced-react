@@ -120,7 +120,7 @@ export default function AppFunctional(props) {
   function onSubmit (evt) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
-    const { email } = state;
+    const { email, steps } = state;
 
     if (email === 'foo@bar.baz') {
       setState((prevstate) => ({
@@ -144,15 +144,22 @@ export default function AppFunctional(props) {
     const randomNum = Math.floor(Math.random() * 1000);
     const message = `${firstPartOfEmail}win${randomNum}`;
 
-    setState({
-      message: initialMessage,
-      email: initialEmail,
-      steps: initialSteps,
+    setState((prevstate) => ({
+      ...prevstate,
       index: initialIndex,
-    });
+      steps: 0,
+      message: message,
+    }));
+
+    const payload = {
+      x: 1,
+      y: 1,
+      steps: steps,
+      email: email,
+    }
 
      axios
-      .post('http://localhost:9000/api/result', { email, message })
+      .post('http://localhost:9000/api/result', payload)
       .then((response) => {
         console.log('POST request successful:', response.data);
     })
