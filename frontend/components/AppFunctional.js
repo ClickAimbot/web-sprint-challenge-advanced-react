@@ -60,8 +60,6 @@ export default function AppFunctional(props) {
       case 'left':
         if (index % gridWidth !== 0) {
           nextIndex = index - 1
-        } else {
-          console.log("cannot move left");
         }
         break;
       case 'up':
@@ -124,12 +122,27 @@ export default function AppFunctional(props) {
     evt.preventDefault();
     const { email } = state;
 
-    try {
-      const response = axios.post('http://localhost:9000/api/result', { email })
-      console.log('POST request successful:', response.data);
-    } catch (error) {
-      console.error('POST request failed:', error);
-    }
+    const emailParts = email.split('@');
+    const firstPartOfEmail = emailParts[0];
+
+    const randomNum = Math.floor(Math.random() * 1000);
+    const message = `${firstPartOfEmail}win${randomNum}`;
+
+    setState({
+      message: initialMessage,
+      email: initialEmail,
+      steps: initialSteps,
+      index: initialIndex,
+    });
+
+     axios
+      .post('http://localhost:9000/api/result', { email, message })
+      .then((response) => {
+        console.log('POST request successful:', response.data);
+    })
+     .catch((error) => {
+        console.error('POST request failed:', error);
+    })
   }
 
   const { steps } = state;
@@ -150,7 +163,7 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 id="message"></h3>
+        <h3 id="message">{state.message}</h3>
       </div>
       <div id="keypad">
         <button id="left" onClick={move}>LEFT</button>

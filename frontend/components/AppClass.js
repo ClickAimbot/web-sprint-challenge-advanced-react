@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 
 // Suggested initial states
@@ -51,21 +52,28 @@ export default class AppClass extends React.Component {
     
     switch (direction) {
       case 'left':
-        nextIndex = index - 1
+        if (index % gridWidth !== 0) {
+          nextIndex = index - 1
+        }
         break;
       case 'up':
-        nextIndex = index - gridWidth
+        if (index >= gridWidth) {
+          nextIndex = index - gridWidth
+        }
         break;
       case 'right':
-        nextIndex = index + 1
+        if ((index + 1) % gridWidth !== 0) {
+          nextIndex = index + 1
+        }
         break;
       case 'down': 
-        nextIndex = index + gridWidth
+        if (index < gridWidth * (gridWidth - 1)) {
+          nextIndex = index + gridWidth
+        }
         break;
       default:
         break;
     }
-
     if (nextIndex >= 0 && nextIndex < gridWidth * gridWidth) {
       return nextIndex;
     } else {
@@ -94,6 +102,16 @@ export default class AppClass extends React.Component {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const { email } = this.state;
+
+    axios
+      .post('http://localhost:9000/api/result', { email })
+      .then((response) => {
+        console.log('POST request successful:', response.data);
+        setState(initialState);
+    })
+     .catch((error) => {
+      console.error('POST request failed:', error);
+    })
 
   }
 
