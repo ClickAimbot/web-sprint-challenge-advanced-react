@@ -122,6 +122,22 @@ export default function AppFunctional(props) {
     evt.preventDefault();
     const { email } = state;
 
+    if (email === 'foo@bar.baz') {
+      setState((prevstate) => ({
+        ...prevstate,
+        message: 'foo@bar.baz failure #71'
+      }));
+      return;
+    };
+    
+    if (!email) {
+      setState((prevstate) => ({
+        ...prevstate,
+        message: 'Ouch: email is required',
+      }));
+      return;
+    }
+
     const emailParts = email.split('@');
     const firstPartOfEmail = emailParts[0];
 
