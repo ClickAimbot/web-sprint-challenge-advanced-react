@@ -99,7 +99,7 @@ export default function AppFunctional(props) {
         ...prevState,
         index: nextIndex,
         steps: prevState.index !== nextIndex ? prevState.steps + 1 : prevState.steps,
-        message: `Moved ${direction}`, 
+        message: '', 
       }));
     } else {
       setState((prevState) => ({

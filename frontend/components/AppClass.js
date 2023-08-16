@@ -89,7 +89,7 @@ export default class AppClass extends React.Component {
       return {
         index: nextIndex,
         steps: prevState.index !== nextIndex ? prevState.steps + 1 : prevState.steps,
-        message: prevState.index !== nextIndex ? `Moved ${direction}` : `You can't go ${direction}`,
+        message: prevState.index !== nextIndex ? '' : `You can't go ${direction}`,
 
       };
     });
