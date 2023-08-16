@@ -21,7 +21,6 @@ export default class AppClass extends React.Component {
   }
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
-
   getXY = (index, gridWidth) => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
@@ -29,7 +28,6 @@ export default class AppClass extends React.Component {
     const y = Math.floor(index / gridWidth);
     return { x, y };
   }
-
   getXYMessage = () => {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
@@ -39,12 +37,10 @@ export default class AppClass extends React.Component {
     const { x, y } = this.getXY(index, gridWidth);
     return `Coordinates (${x}, ${y})`;
   }
-
   reset = () => {
     // Use this helper to reset all states to their initial values.
     this.setState(initialState);
   }
-
   getNextIndex = (direction) => {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
@@ -53,7 +49,6 @@ export default class AppClass extends React.Component {
     const gridWidth = 3
     let nextIndex = index;
     
-
     switch (direction) {
       case 'left':
         nextIndex = index - 1
@@ -77,7 +72,6 @@ export default class AppClass extends React.Component {
       return index;
     }
   }
-
   move = (evt) => {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
@@ -87,20 +81,19 @@ export default class AppClass extends React.Component {
       return {
         index: nextIndex,
         steps: prevState.index !== nextIndex ? prevState.steps + 1 : prevState.steps,
+        message: prevState.index !== nextIndex ? `Moved ${direction}` : `You can't go ${direction}`,
+
       };
     });
   }
-
   onChange = (evt) => {
     // You will need this to update the value of the input.
     this.setState({ ...this.state, email: evt.target.value })
   }
-
   onSubmit = (evt) => {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const { email } = this.state;
-    console.log("Submitting email:", email)
 
   }
 
@@ -115,12 +108,13 @@ export default class AppClass extends React.Component {
         </div>
         <div id="grid">
           {
-            [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-              <div key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
-                {idx === 4 ? 'B' : null}
+            [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => {
+              return (
+              <div key={idx} className={`square${idx === this.state.index ? ' active' : ''}`}>
+                {idx === this.state.index ? 'B' : null}
               </div>
-            ))
-          }
+            );
+          })}
         </div>
         <div className="info">
           <h3 id="message">{this.state.message}</h3>
