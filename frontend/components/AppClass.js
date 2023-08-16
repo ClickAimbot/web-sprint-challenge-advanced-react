@@ -129,12 +129,12 @@ export default class AppClass extends React.Component {
       ...prevstate,
       index: initialIndex,
       steps: 0,
-      message: message,
+      message: '',
     }));
 
     const payload = {
       x: 1,
-      y: 1,
+      y: 2,
       steps: steps,
       email: email,
     }
@@ -142,8 +142,11 @@ export default class AppClass extends React.Component {
     axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
+        this.setState({
+          message: message,
+        });
+
         console.log('POST request successful:', response.data);
-        setState(initialState);
     })
      .catch((error) => {
       console.error('POST request failed:', error);

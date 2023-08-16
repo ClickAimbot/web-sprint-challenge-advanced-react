@@ -148,7 +148,7 @@ export default function AppFunctional(props) {
       ...prevstate,
       index: initialIndex,
       steps: 0,
-      message: message,
+      message: '',
     }));
 
     const payload = {
@@ -161,6 +161,9 @@ export default function AppFunctional(props) {
      axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
+        setState({
+          message: message,
+        });
         console.log('POST request successful:', response.data);
     })
      .catch((error) => {
