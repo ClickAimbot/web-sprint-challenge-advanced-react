@@ -102,6 +102,7 @@ export default class AppClass extends React.Component {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const { email, steps } = this.state;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const payload = {
       x: 1,
@@ -129,7 +130,9 @@ export default class AppClass extends React.Component {
       this.setState((prevstate) => ({
         ...prevstate,
         message: 'Ouch: email must be a valid email',
-      }))
+      }
+      ));
+      return;
     }
     axios
       .post('http://localhost:9000/api/result', payload)
@@ -148,6 +151,7 @@ export default class AppClass extends React.Component {
         index: initialIndex,
         steps: 0,
         message: '',
+        email: '',
       }));
     });
   }

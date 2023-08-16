@@ -150,7 +150,9 @@ export default function AppFunctional(props) {
       setState((prevstate) => ({
         ...prevstate,
         message: 'Ouch: email must be a valid email',
-      }))
+      }
+      ))
+      return;
     }
     axios
       .post('http://localhost:9000/api/result', payload)
@@ -169,6 +171,7 @@ export default function AppFunctional(props) {
           index: initialIndex,
           steps: 0,
           message: '',
+          email: "",
         }));
      });
   }
