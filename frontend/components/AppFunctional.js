@@ -92,8 +92,8 @@ export default function AppFunctional(props) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     const direction = evt.target.id;
-
     const nextIndex = getNextIndex(direction);
+
     if (nextIndex !== state.index) {
       setState((prevState) => ({
         ...prevState,
@@ -122,6 +122,13 @@ export default function AppFunctional(props) {
     evt.preventDefault();
     const { email, steps } = state;
 
+    const payload = {
+      x: 1,
+      y: 2,
+      steps: steps,
+      email: email,
+    };
+
     if (email === 'foo@bar.baz') {
       setState((prevstate) => ({
         ...prevstate,
@@ -138,37 +145,25 @@ export default function AppFunctional(props) {
       return;
     }
 
-    const emailParts = email.split('@');
-    const firstPartOfEmail = emailParts[0];
-
-    const randomNum = Math.floor(Math.random() * 1000);
-    const message = `${firstPartOfEmail}win${randomNum}`;
-
-    setState((prevstate) => ({
-      ...prevstate,
-      index: initialIndex,
-      steps: 0,
-      message: '',
-    }));
-
-    const payload = {
-      x: 1,
-      y: 1,
-      steps: steps,
-      email: email,
-    }
-
-     axios
+    axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
         setState({
-          message: message,
+          message: response.data.message,
         });
         console.log('POST request successful:', response.data);
     })
      .catch((error) => {
         console.error('POST request failed:', error);
     })
+     .finally(() => {
+        setState((prevstate) => ({
+          ...prevstate,
+          index: initialIndex,
+          steps: 0,
+          message: '',
+      }));
+     })
   }
 
   const { steps } = state;

@@ -110,27 +110,14 @@ export default class AppClass extends React.Component {
       }));
       return;
     };
-    
     if (!email) {
       this.setState((prevstate) => ({
         ...prevstate,
         message: 'Ouch: email is required',
-      }));
+      }   
+      ));
       return;
     }
-
-    const emailParts = email.split('@');
-    const firstPartOfEmail = emailParts[0];
-
-    const randomNum = Math.floor(Math.random() * 1000);
-    const message = `${firstPartOfEmail}win${randomNum}`;
-
-    this.setState((prevstate) => ({
-      ...prevstate,
-      index: initialIndex,
-      steps: 0,
-      message: '',
-    }));
 
     const payload = {
       x: 1,
@@ -139,11 +126,19 @@ export default class AppClass extends React.Component {
       email: email,
     }
 
+    this.setState((prevstate) => ({
+      ...prevstate,
+      index: initialIndex,
+      steps: 0,
+      message: '',
+    }));
+    
     axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
+        console.log(response)
         this.setState({
-          message: message,
+          message: response.data.message,
         });
 
         console.log('POST request successful:', response.data);
@@ -151,7 +146,6 @@ export default class AppClass extends React.Component {
      .catch((error) => {
       console.error('POST request failed:', error);
     })
-
   }
 
   render() {
