@@ -103,6 +103,13 @@ export default class AppClass extends React.Component {
     evt.preventDefault();
     const { email, steps } = this.state;
 
+    const payload = {
+      x: 1,
+      y: 2,
+      steps: steps,
+      email: email,
+    }
+
     if (email === 'foo@bar.baz') {
       this.setState((prevstate) => ({
         ...prevstate,
@@ -118,34 +125,31 @@ export default class AppClass extends React.Component {
       ));
       return;
     }
-
-    const payload = {
-      x: 1,
-      y: 2,
-      steps: steps,
-      email: email,
+    if(!emailRegex.test(email)) {
+      this.setState((prevstate) => ({
+        ...prevstate,
+        message: 'Ouch: email must be a valid email',
+      }))
     }
-
-    this.setState((prevstate) => ({
-      ...prevstate,
-      index: initialIndex,
-      steps: 0,
-      message: '',
-    }));
-    
     axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
-        console.log(response)
         this.setState({
           message: response.data.message,
         });
-
         console.log('POST request successful:', response.data);
     })
      .catch((error) => {
       console.error('POST request failed:', error);
     })
+     .finally(() => {
+      this.setState((prevstate) => ({
+        ...prevstate,
+        index: initialIndex,
+        steps: 0,
+        message: '',
+      }));
+    });
   }
 
   render() {

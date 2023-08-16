@@ -121,6 +121,7 @@ export default function AppFunctional(props) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const { email, steps } = state;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const payload = {
       x: 1,
@@ -145,6 +146,12 @@ export default function AppFunctional(props) {
       return;
     }
 
+    if(!emailRegex.test(email)) {
+      setState((prevstate) => ({
+        ...prevstate,
+        message: 'Ouch: email must be a valid email',
+      }))
+    }
     axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
@@ -162,8 +169,8 @@ export default function AppFunctional(props) {
           index: initialIndex,
           steps: 0,
           message: '',
-      }));
-     })
+        }));
+     });
   }
 
   const { steps } = state;
