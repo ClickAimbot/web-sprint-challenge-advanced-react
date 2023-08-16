@@ -139,20 +139,14 @@ export default class AppClass extends React.Component {
       .then((response) => {
         this.setState({
           message: response.data.message,
+          index: initialIndex,
+          steps: 0,
+          email: '',
         });
         console.log('POST request successful:', response.data);
     })
      .catch((error) => {
       console.error('POST request failed:', error);
-    })
-     .finally(() => {
-      this.setState((prevstate) => ({
-        ...prevstate,
-        index: initialIndex,
-        steps: 0,
-        message: '',
-        email: '',
-      }));
     });
   }
 

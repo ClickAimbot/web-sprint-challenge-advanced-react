@@ -157,23 +157,18 @@ export default function AppFunctional(props) {
     axios
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
+        console.log(response)
         setState({
           message: response.data.message,
+          index: initialIndex,
+          steps: 0,
+          email: "",
         });
         console.log('POST request successful:', response.data);
     })
      .catch((error) => {
         console.error('POST request failed:', error);
-    })
-     .finally(() => {
-        setState((prevstate) => ({
-          ...prevstate,
-          index: initialIndex,
-          steps: 0,
-          message: '',
-          email: "",
-        }));
-     });
+    });
   }
 
   const { steps } = state;
