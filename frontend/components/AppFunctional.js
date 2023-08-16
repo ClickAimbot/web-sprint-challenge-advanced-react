@@ -20,8 +20,8 @@ export default function AppFunctional(props) {
 
 
   function getXY(index, gridWidth) {
-    const x = index % gridWidth;
-    const y = Math.floor(index / gridWidth);
+    const x = (index % gridWidth) + 1;
+    const y = Math.floor(index / gridWidth) + 1;
     return { x, y };
 
     // It it not necessary to have a state to track the coordinates.
@@ -157,7 +157,7 @@ export default function AppFunctional(props) {
         {
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
             <div key={idx} className={`square${idx === state.index ? ' active' : ''}`}>
-              {idx === state.index ? 'B' : null}
+              {idx  === state.index ? 'B' : null}
             </div>
           ))
         }

@@ -25,8 +25,8 @@ export default class AppClass extends React.Component {
   getXY = (index, gridWidth) => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
-    const x = index % gridWidth;
-    const y = Math.floor(index / gridWidth);
+    const x = (index % gridWidth) + 1;
+    const y = Math.floor(index / gridWidth) + 1;
     return { x, y };
   }
   getXYMessage = () => {
