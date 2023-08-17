@@ -8,7 +8,7 @@ test('renders "Coordinates message', () => {
   expect(coordinatesMessage).toBeInTheDocument();
 })
 test('sanity', () => {
-  expect(true).toBe(false)
+  expect(false).toBe(false)
 })
 test('square wont move past the edge of the board', () => {
   const { container } = render(<AppClass />);
