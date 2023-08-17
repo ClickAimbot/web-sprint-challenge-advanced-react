@@ -20,3 +20,23 @@ test('square wont move past the edge of the board', () => {
 
   expect(updatedIndex).toBe(currentIndex)
 })
+test('visible texts render on the screen', () => {
+  render(<AppClass />);
+
+  expect(screen.getByText(/Coordinates/i)).toBeInTheDocument();
+  expect(screen.getByText(/Steps/i)).toBeInTheDocument();
+  expect(screen.getByText('LEFT')).toBeInTheDocument();
+  expect(screen.getByText('UP')).toBeInTheDocument();
+  expect(screen.getByText('RIGHT')).toBeInTheDocument();
+  expect(screen.getByText('DOWN')).toBeInTheDocument();
+  expect(screen.getByText('reset')).toBeInTheDocument();
+});
+
+test('typing on the input changes its value', () => {
+  render(<AppClass />);
+
+  const emailInput = screen.getByPlaceholderText('type email');
+  fireEvent.change(emailInput, { target: { value: 'lady@gaga.com' } });
+
+  expect(emailInput.value).toBe('lada@gaga.com');
+})
