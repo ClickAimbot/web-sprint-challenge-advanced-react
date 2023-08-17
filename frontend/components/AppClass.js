@@ -22,20 +22,19 @@ export default class AppClass extends React.Component {
   }
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
-  getXY = (index, gridWidth) => {
+  getXY = () => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
-    const x = (index % gridWidth) + 1;
-    const y = Math.floor(index / gridWidth) + 1;
+    const { index } = this.state;
+    const x = (index % 3) + 1;
+    const y = Math.floor(index / 3) + 1;
     return { x, y };
   }
   getXYMessage = () => {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    const { index } = this.state;
-    const gridWidth = 3
-    const { x, y } = this.getXY(index, gridWidth);
+    const { x, y } = this.getXY();
     return `Coordinates (${x}, ${y})`;
   }
   reset = () => {
@@ -104,9 +103,11 @@ export default class AppClass extends React.Component {
     const { email, steps } = this.state;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    const { x, y } = this.getXY()
+
     const payload = {
-      x: 1,
-      y: 2,
+      x: x,
+      y: y,
       steps: steps,
       email: email,
     }
@@ -138,12 +139,10 @@ export default class AppClass extends React.Component {
       .post('http://localhost:9000/api/result', payload)
       .then((response) => {
         this.setState({
+          ...this.state,
           message: response.data.message,
-          index: initialIndex,
-          steps: 0,
           email: '',
         });
-        console.log('POST request successful:', response.data);
     })
      .catch((error) => {
       console.error('POST request failed:', error);

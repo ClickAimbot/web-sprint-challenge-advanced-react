@@ -3,12 +3,13 @@ import { render } from '@testing-library/react';
 import AppClass from './AppClass';
 
 test('renders "Coordinates message', () => {
-  const { getByText } = render(<AppClass />);
-  const coordinatesMessage = getByText(/Coordinates/i);
+  const { findByText } = render(<AppClass />);
+  const coordinatesMessage = findByText(/Coordinates:/i);
+  console.log('checking coordinates message', coordinatesMessage)
   expect(coordinatesMessage).toBeInTheDocument();
 })
 test('sanity', () => {
-  expect(false).toBe(false)
+  expect(true).toBe(true)
 })
 test('square wont move past the edge of the board', () => {
   const { container } = render(<AppClass />);
@@ -23,8 +24,8 @@ test('square wont move past the edge of the board', () => {
 test('visible texts render on the screen', () => {
   render(<AppClass />);
 
-  expect(screen.getByText(/Coordinates/i)).toBeInTheDocument();
-  expect(screen.getByText(/Steps/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/Coordinates:/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/Steps:/i)).toBeInTheDocument();
   expect(screen.getByText('LEFT')).toBeInTheDocument();
   expect(screen.getByText('UP')).toBeInTheDocument();
   expect(screen.getByText('RIGHT')).toBeInTheDocument();
@@ -35,8 +36,8 @@ test('visible texts render on the screen', () => {
 test('typing on the input changes its value', () => {
   render(<AppClass />);
 
-  const emailInput = screen.getByPlaceholderText('type email');
+  const emailInput = screen.getById('email');
   fireEvent.change(emailInput, { target: { value: 'lady@gaga.com' } });
 
-  expect(emailInput.value).toBe('lada@gaga.com');
+  expect(emailInput.value).toBe('lady@gaga.com');
 })
